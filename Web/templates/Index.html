@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>نظام رصد المركبات المسروقة</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --green:#0a8f55;
+      --green-dark:#0b6b43;
+      --green-light:#13a564;
+
+      --gold:#c9a84c;
+      --gold-light:#e8c97a;
+
+      --white:#ffffff;
+      --gray-bg:#f5f6f8;
+      --gray-border:#e6e9ee;
+
+      --text-dark:#1f2937;
+      --text-mid:#6b7280;
+
+      --red:#c0392b;
+      --red-light:#fdf2f2;
+
+      --success:#1a7a4a;
+      --success-light:#edfaf3;
+
+      --shadow:0 10px 30px rgba(16,24,40,.08);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      font-family:'IBM Plex Sans Arabic', sans-serif;
+      background:var(--gray-bg);
+      color:var(--text-dark);
+      min-height:100vh;
+      direction:rtl;
+    }
+
+    /* ===== HEADER (Absher-ish: أبيض ومرتب) ===== */
+    header{
+      background:#fff;
+      color:var(--text-dark);
+      padding:0;
+      border-bottom:1px solid var(--gray-border);
+      box-shadow:none;
+      position:relative;
+      overflow:visible;
+    }
+    header::before{display:none;}
+
+    .header-main{
+      padding:18px 24px;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      max-width:1100px;
+      margin:0 auto;
+    }
+
+     
+    .logo-text h1{
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:0;
+      color:var(--text-dark);
+    }
+
+    .logo-text p{
+      font-size:13px;
+      color:var(--text-mid);
+      margin-top:4px;
+      opacity:1;
+    }
+
+    .divider-v{
+      width:1px;
+      height:42px;
+      background:var(--gray-border);
+      margin:0 6px;
+    }
+
+    .ministry-name{
+      font-size:13px;
+      color:var(--text-mid);
+      line-height:1.6;
+      opacity:1;
+    }
+    .ministry-name strong{
+      display:block;
+      font-size:14px;
+      font-weight:800;
+      color:var(--text-dark);
+    }
+
+     
+
+    /* ===== HERO (أبيض مثل أبشر) ===== */
+    .hero-banner{
+      background:#fff;
+      color:var(--text-dark);
+      text-align:right;
+      padding:18px 24px;
+      border-bottom:1px solid var(--gray-border);
+    }
+    .hero-banner .inner{
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .hero-banner h2{
+      font-size:18px;
+      font-weight:900;
+      margin:0 0 6px;
+    }
+    .hero-banner p{
+      font-size:13px;
+      color:var(--text-mid);
+      opacity:1;
+    }
+
+    /* ===== MAIN LAYOUT ===== */
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:20px 24px;
+    }
+
+  .layout{
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+ /* ===== CARD ===== */
+   .card{
+  background:#fff;
+  border-radius:18px;
+  border:1px solid var(--gray-border);
+  box-shadow:0 15px 40px rgba(16,24,40,.08);
+  padding:0;
+}
+
+    .card-header{
+      background:#fff;
+      color:var(--text-dark);
+      padding:16px 18px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      font-size:15px;
+      border-bottom:1px solid var(--gray-border);
+    }
+
+    .card-header .icon{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      background:#e8f6ef;
+      border:1px solid #cfe9db;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
+      color:var(--green);
+    }
+
+    .card-body{
+  padding:28px;
+}
+
+    /* ===== FORM ===== */
+    .form-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .form-group{margin-bottom:12px;}
+
+    .form-group label{
+      display:block;
+      font-size:13px;
+      font-weight:800;
+      color:var(--text-mid);
+      margin-bottom:6px;
+    }
+
+    .form-group label span.req{
+      color:var(--red);
+      margin-right:3px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+      width:100%;
+      padding:12px 12px;
+      border:1px solid var(--gray-border);
+      border-radius:10px;
+      font-family:inherit;
+      font-size:14px;
+      color:var(--text-dark);
+      background:#fff;
+      outline:none;
+      transition: border-color .15s, box-shadow .15s;
+      direction:rtl;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus{
+      border-color:#b9c7d7;
+      box-shadow:0 0 0 3px rgba(10,143,85,.08);
+    }
+
+    .form-group textarea{min-height:90px;resize:vertical;}
+
+    /* ===== PLATE FIELD ===== */
+    .plate-field{
+      direction:ltr;
+      text-align:center;
+      font-size:16px;
+      font-weight:900;
+      letter-spacing:3px;
+      border:1px solid var(--gray-border);
+      background:#fff;
+    }
+
+    /* ===== BUTTON ===== */
+    .btn-submit{
+      width:100%;
+      background:var(--green);
+      color:#fff;
+      border:none;
+      padding:14px 14px;
+      border-radius:10px;
+      font-family:inherit;
+      font-size:15px;
+      font-weight:900;
+      cursor:pointer;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-top:6px;
+      box-shadow:0 8px 18px rgba(10,143,85,.18);
+    }
+
+    .btn-submit:hover{
+      transform: translateY(-1px);
+      box-shadow:0 10px 24px rgba(10,143,85,.22);
+    }
+
+    .btn-submit.loading{
+      opacity:.85;
+      pointer-events:none;
+    }
+
+    .spinner{
+      width:18px;height:18px;
+      border:2.5px solid rgba(255,255,255,.35);
+      border-top-color:#fff;
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+      display:none;
+    }
+
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ===== RESULT ===== */
+    #result-box{
+      display:none;
+      margin-top:14px;
+      border-radius:12px;
+      overflow:hidden;
+      animation:slideIn .25s ease;
+    }
+
+    @keyframes slideIn{
+      from{opacity:0;transform:translateY(-6px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .result-stolen{
+      background:var(--red-light);
+      border:1px solid rgba(192,57,43,.35);
+    }
+
+    .result-clean{
+      background:var(--success-light);
+      border:1px solid rgba(26,122,74,.35);
+    }
+
+    .result-header{
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      font-size:15px;
+    }
+
+    .result-stolen .result-header{background:var(--red);color:#fff;}
+    .result-clean .result-header{background:var(--success);color:#fff;}
+
+    .result-icon{
+      width:36px;height:36px;
+      border-radius:10px;
+      background:rgba(255,255,255,.22);
+      display:flex;align-items:center;justify-content:center;
+      font-size:18px;
+    }
+
+    .result-body{padding:14px 16px;}
+
+    .result-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 0;
+      border-bottom:1px solid rgba(0,0,0,.06);
+      font-size:13px;
+    }
+    .result-row:last-child{border-bottom:none;}
+    .result-row .label{color:var(--text-mid);font-weight:700;}
+    .result-row .value{font-weight:900;color:var(--text-dark);}
+
+    .badge-stolen, .badge-clean{
+      color:#fff;
+      padding:3px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      display:inline-block;
+    }
+    .badge-stolen{background:var(--red);}
+    .badge-clean{background:var(--success);}
+
+    /* ===== SIDEBAR ===== */
+    .sidebar-card{margin-bottom:14px;}
+
+    .info-list{list-style:none;}
+    .info-list li{
+      padding:12px 14px;
+      border-bottom:1px solid var(--gray-border);
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:13px;
+      line-height:1.6;
+      color:var(--text-mid);
+      font-weight:700;
+    }
+    .info-list li:last-child{border-bottom:none;}
+
+    .info-list li .dot{
+      width:8px;height:8px;
+      border-radius:50%;
+      background:var(--green);
+      margin-top:7px;
+      flex-shrink:0;
+    }
+
+    .stat-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  padding:20px;
+}
+
+.stat-item{
+  background:#f8fafc;
+  border:1px solid var(--gray-border);
+  border-radius:14px;
+  padding:16px;
+  text-align:center;
+  transition:all .2s ease;
+}
+
+.stat-item:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+    /* ===== FOOTER ===== */
+    footer{
+      background:#fff;
+      border-top:1px solid var(--gray-border);
+      color:var(--text-mid);
+      text-align:center;
+      padding:18px;
+      font-size:12px;
+      margin-top:22px;
+    }
+
+    footer strong{color:var(--text-dark);}
+
+    /* ===== STEPS (نفس حقك بس أهدى) ===== */
+    .steps{
+      display:flex;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .step{
+      flex:1;
+      text-align:center;
+      padding:12px 10px;
+      background:#fff;
+      border:1px solid var(--gray-border);
+      border-radius:12px;
+      font-size:12px;
+      color:var(--text-mid);
+      font-weight:800;
+      box-shadow:0 6px 16px rgba(16,24,40,.05);
+    }
+
+    .step.active{
+      border-color:#cfe9db;
+      background:var(--green-soft);
+      color:var(--green-dark);
+    }
+
+    .step .num{
+      display:block;
+      font-size:18px;
+      font-weight:900;
+      margin-bottom:2px;
+      color:inherit;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+}
+      .header-main{padding:14px 16px;}
+      .form-row{grid-template-columns:1fr;}
+      .container{padding:16px;}
+      .hero-banner{padding:16px;}
+     
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    
+  </header>
+
+  
+  <!-- Hero -->
+  <div class="hero-banner">
+    <div class="inner">
+      <h2>نظام رصد وكشف المركبات المسروقة</h2>
+      <p>أدخل رقم اللوحة لمطابقتها فوراً مع قاعدة بيانات المركبات المسروقة</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="layout">
+
+      <!-- Left: Form -->
+      <div>
+
+         
+        <div class="card">
+          <div class="card-header">
+            <div class= >
+            فحص مركبة (إدخال يدوي)
+          </div>
+
+          <div class="card-body">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>رقم اللوحة <span class="req">*</span></label>
+                <input type="text" id="plate-number" class="plate-field" placeholder="ABC 1234" />
+              </div>
+
+              <div class="form-group">
+                <label>نوع المركبة</label>
+                <select>
+                  <option value="">اختر النوع</option>
+                  <option>سيارة خاصة</option>
+                  <option>دراجة نارية</option>
+                  <option>شاحنة</option>
+                  <option>حافلة</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>الموقع / المنطقة</label>
+                <select>
+                  <option value="">اختر المنطقة</option>
+                  <option>الرياض</option>
+                  <option>جدة</option>
+                  <option>مكة المكرمة</option>
+                  <option>المدينة المنورة</option>
+                  <option>الدمام</option>
+                  <option>القصيم</option>
+                  <option>حائل</option>
+                  <option>تبوك</option>
+                  <option>أبها</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>وقت الرصد</label>
+                <input type="datetime-local" id="report-time"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>ملاحظات إضافية</label>
+              <textarea placeholder="أي تفاصيل إضافية عن المركبة أو موقعها..."></textarea>
+            </div>
+
+            <button class="btn-submit" id="submit-btn" onclick="submitReport()">
+              <div class="spinner" id="spinner"></div>
+              <span id="btn-text">فحص المركبة ومطابقة قاعدة البيانات</span>
+            </button>
+
+            <div id="result-box"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Sidebar -->
+      <div>
+
+        <div class="card sidebar-card">
+          <div class="card-header">
+            <div class= >
+            إحصائيات اليوم
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-item">
+              <div class="num">١٢٤</div>
+              <div class="desc">بلاغ مرفوع</div>
+            </div>
+            <div class="stat-item">
+              <div class="num">١٨</div>
+              <div class="desc">مركبة مُكتشفة</div>
+            </div>
+            <div class="stat-item">
+              <div class="num">٩٢٪</div>
+              <div class="desc">دقة الكشف</div>
+            </div>
+            <div class="stat-item">
+              <div class="num">٣ث</div>
+              <div class="desc">متوسط وقت الفحص</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card sidebar-card">
+          <div class="card-header">
+            <div class=  >
+            إرشادات الاستخدام
+          </div>
+
+          <ul class="info-list">
+            <li><div class="dot"></div>يمكن إدخال رقم اللوحة يدوياً</li>
+            <li><div class="dot"></div>سيتم مطابقة البيانات فورياً مع قاعدة البيانات الأمنية</li>
+            <li><div class="dot"></div>في حال الاكتشاف، ستُبلَّغ الجهات الأمنية تلقائياً</li>
+          </ul>
+        </div>
+
+        <div class="card sidebar-card">
+          <div class="card-header" style="border-bottom:1px solid var(--gray-border);">
+            <div class="icon" style="background:#fdecec;border-color:#f5c6c6;color:var(--red);">🚨</div>
+            تواصل طارئ
+          </div>
+
+          <ul class="info-list">
+            <li><div class="dot" style="background:var(--red)"></div><strong>الشرطة:</strong> 911</li>
+            <li><div class="dot" style="background:var(--red)"></div><strong>الهاتف الموحد:</strong> 19911</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <strong>نظام رصد للمركبات المسروقة</strong><br/>
+    <span style="opacity:.8">جميع الحقوق محفوظة © ١٤٤٦ هـ</span>
+  </footer>
+
+  <script>
+     
+document.getElementById('report-time').value = new Date().toISOString().slice(0,16);
+
+function submitReport(){
+  const plate = document.getElementById('plate-number').value.trim();
+  if(!plate){ alert('الرجاء إدخال رقم اللوحة'); return; }
+
+  const btn = document.getElementById('submit-btn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('btn-text');
+
+  btn.classList.add('loading');
+  spinner.style.display = 'block';
+  btnText.textContent = 'جاري الفحص والمطابقة...';
+
+  const formData = new FormData();
+  formData.append("plate_number", plate);
+fetch("http://127.0.0.1:5000/api/check", {
+  method: "POST",
+  body: formData
+})
+.then(res => res.json())
+.then(data => {
+  console.log("Response:", data);
+})
+.catch(err => {
+  console.error("Error:", err);
+})
+   
+  .then(res => res.json())
+  .then(data => {
+      btn.classList.remove('loading');
+      spinner.style.display = 'none';
+      btnText.textContent = 'فحص المركبة ومطابقة قاعدة البيانات';
+
+      showRealResult(data);
+  })
+  .catch(err => {
+      console.error(err);
+      alert("حدث خطأ في الاتصال بالسيرفر");
+  });
+}
+
+function showRealResult(data){
+  const box = document.getElementById('result-box');
+
+  if(data.any_stolen){
+      box.className = 'result-stolen';
+      box.innerHTML = `
+        <div class="result-header">
+          <div class="result-icon">🚨</div>
+          تحذير! المركبة مُبلَّغ عن سرقتها
+        </div>
+      `;
+  } else {
+      box.className = 'result-clean';
+      box.innerHTML = `
+        <div class="result-header">
+          <div class="result-icon">✅</div>
+          المركبة غير مُبلَّغ عن سرقتها
+        </div>
+      `;
+  }
+
+  box.style.display = 'block';
+}
+</script>
+  </script>
+
+</body>
+</html>
